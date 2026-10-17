@@ -175,3 +175,11 @@ Two authoring traps, both caught by `node tools/verify.mjs`:
 - Exercises run in WebAssembly, so there is no real network, no real shell and
   no real filesystem outside the page.
 - Progress is per-browser. Use Export regularly if it matters.
+
+## License
+
+MIT — see [LICENSE](LICENSE). Clone it, fork it, change it, teach from it,
+or ship it in something of your own; keep the copyright notice.
+
+The CVE and incident references throughout the lessons describe publicly
+documented events and are cited to their primary sources.
