@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Secure Python — a 60-day practicum</title>
+<meta name="description" content="Learn Python from zero with secure coding enforced from day one. Real CPython in the browser, a security auditor on every submission." />
+<link rel="stylesheet" href="css/app.css" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234536D9'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='15' font-weight='700' fill='%23fff' text-anchor='middle'%3E%26gt;%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+
+<div id="boot" class="boot">
+  <div class="boot__inner">
+    <div class="boot__mark" aria-hidden="true">&gt;&gt;&gt;</div>
+    <h1 class="boot__title">Secure Python</h1>
+    <p class="boot__sub">Starting CPython in your browser</p>
+    <div class="boot__bar"><div class="boot__fill" id="bootFill"></div></div>
+    <p class="boot__status" id="bootStatus">loading runtime…</p>
+    <p class="boot__note" id="bootNote"></p>
+  </div>
+</div>
+
+<header class="topbar">
+  <button class="iconbtn topbar__rail" id="railToggle" aria-label="Toggle course index" aria-expanded="true">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 3h13M1.5 8h13M1.5 13h13" /></svg>
+  </button>
+
+  <a class="brand" href="#/" aria-label="Secure Python home">
+    <span class="brand__mark" aria-hidden="true">&gt;&gt;&gt;</span>
+    <span class="brand__text">
+      <strong>Secure Python</strong>
+      <span class="brand__sub">a 60-day practicum</span>
+    </span>
+  </a>
+
+  <div class="topbar__meters">
+    <div class="meter" id="todayMeter" title="Minutes of practice today">
+      <svg class="ring" viewBox="0 0 40 40" aria-hidden="true">
+        <circle class="ring__track" cx="20" cy="20" r="16" />
+        <circle class="ring__fill" cx="20" cy="20" r="16" id="todayRing" />
+      </svg>
+      <span class="meter__text"><strong id="todayMin">0</strong><span class="meter__unit">/60 min</span></span>
+    </div>
+    <div class="meter meter--plain" title="Consecutive days practised">
+      <span class="meter__text"><strong id="streakVal">0</strong><span class="meter__unit">day streak</span></span>
+    </div>
+    <div class="meter meter--plain" title="Lessons completed">
+      <span class="meter__text"><strong id="doneVal">0</strong><span class="meter__unit">/<span id="totalVal">0</span> done</span></span>
+    </div>
+  </div>
+
+  <div class="topbar__right">
+    <div class="search">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
+      <input type="search" id="search" placeholder="Search lessons, rules, CWEs" aria-label="Search" autocomplete="off" />
+      <div class="search__results" id="searchResults" hidden></div>
+    </div>
+    <button class="iconbtn" id="themeToggle" aria-label="Switch colour theme" title="Theme">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3.6"/><path d="M8 .8v2M8 13.2v2M.8 8h2M13.2 8h2M3 3l1.4 1.4M11.6 11.6 13 13M13 3l-1.4 1.4M4.4 11.6 3 13"/></svg>
+    </button>
+    <button class="iconbtn" id="helpToggle" aria-label="Keyboard shortcuts" title="Shortcuts (?)">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 6a2 2 0 1 1 3 1.7c-.7.5-1 .9-1 1.8"/><circle cx="8" cy="12" r=".8" fill="currentColor" stroke="none"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Course index">
+    <div class="rail__head">
+      <span class="eyebrow">Course index</span>
+      <div class="rail__progress"><div class="rail__progressfill" id="railProgress"></div></div>
+    </div>
+    <div class="rail__body" id="railBody"></div>
+    <div class="rail__foot">
+      <button class="linkbtn" id="exportBtn">Export progress</button>
+      <button class="linkbtn" id="importBtn">Import</button>
+      <input type="file" id="importFile" accept="application/json" hidden />
+    </div>
+  </nav>
+
+  <main class="main" id="main" tabindex="-1"></main>
+</div>
+
+<section class="drawer" id="drawer" aria-label="Python console">
+  <button class="drawer__handle" id="drawerToggle" aria-expanded="false">
+    <span class="led" id="replLed" aria-hidden="true"></span>
+    <span class="drawer__title">Python console</span>
+    <span class="kbd">⌃`</span>
+  </button>
+  <div class="drawer__body">
+    <div class="drawer__bar">
+      <span class="eyebrow">scratch REPL — persistent namespace, simulated OS</span>
+      <div class="drawer__actions">
+        <button class="linkbtn" id="replClear">clear</button>
+        <button class="linkbtn" id="replReset">reset namespace</button>
+      </div>
+    </div>
+    <div class="repl" id="replOut" role="log" aria-live="polite"></div>
+    <div class="repl__inputrow">
+      <span class="repl__prompt" id="replPrompt">&gt;&gt;&gt;</span>
+      <textarea id="replInput" rows="1" spellcheck="false" autocapitalize="off" autocomplete="off"
+                aria-label="Python console input" placeholder="2 ** 10"></textarea>
+    </div>
+  </div>
+</section>
+
+<div class="modal" id="helpModal" hidden>
+  <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <h2 id="helpTitle" class="h3">Keyboard</h2>
+    <dl class="shortcuts">
+      <dt><span class="kbd">⌘/⌃ ↵</span></dt><dd>Run the exercise</dd>
+      <dt><span class="kbd">⌘/⌃ ⇧ ↵</span></dt><dd>Submit for grading</dd>
+      <dt><span class="kbd">⌃ `</span></dt><dd>Toggle the Python console</dd>
+      <dt><span class="kbd">⌥ ←</span> <span class="kbd">⌥ →</span></dt><dd>Previous / next lesson</dd>
+      <dt><span class="kbd">/</span></dt><dd>Search</dd>
+      <dt><span class="kbd">?</span></dt><dd>This panel</dd>
+      <dt><span class="kbd">Tab</span></dt><dd>Indent four spaces in the editor</dd>
+    </dl>
+    <button class="btn btn--ghost" id="helpClose">Close</button>
+  </div>
+</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
