@@ -44,6 +44,7 @@
   --rail-w: 274px;
   --panel-w: minmax(390px, 0.84fr);
   --topbar-h: 58px;
+  --drawer-h: 0px;
 
   --step--1: 0.806rem;
   --step-0: 1rem;
@@ -276,7 +277,9 @@ code, kbd, samp, pre { font-family: var(--font-mono); font-size: 0.86em; }
 .tick { display: inline-block; width: 0.9em; color: var(--pass); }
 
 /* --------------------------------------------------------------- main --- */
-.main { min-width: 0; padding: 0 0 5rem; }
+.main { min-width: 0; padding: 0 0 calc(5rem + var(--drawer-h)); }
+/* the console drawer is fixed over the page: reserve its height while open */
+body.drawer-open { --drawer-h: min(42vh, 24rem); }
 .wrap { max-width: 78rem; margin: 0 auto; padding: 1.6rem 1.6rem 0; }
 
 /* ------------------------------------------------------------ overview --- */
@@ -459,8 +462,9 @@ table.data tbody tr:hover { background: var(--surface-2); }
   display: grid; gap: 0; align-content: start;
   background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius);
   box-shadow: var(--shadow-1); overflow: hidden;
-  max-height: calc(100vh - var(--topbar-h) - 2rem);
+  max-height: calc(100vh - var(--topbar-h) - 2rem - var(--drawer-h));
   grid-template-rows: auto auto minmax(8rem, 1fr) auto;
+  scroll-margin-top: calc(var(--topbar-h) + 1rem);
   min-width: 0;
 }
 .panel > * { min-width: 0; }
@@ -482,7 +486,8 @@ table.data tbody tr:hover { background: var(--surface-2); }
 .ledlabel { font-family: var(--font-display); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
 
 .editor { position: relative; min-width: 0; border-bottom: 1px solid var(--rule); background: var(--surface); }
-.editor__scroll { position: relative; overflow: auto; min-width: 0; max-height: 46vh; min-height: 11rem; }
+.editor__scroll { position: relative; overflow: auto; min-width: 0;
+  max-height: calc((100vh - var(--topbar-h) - var(--drawer-h)) * 0.46); min-height: 11rem; }
 .editor__layer, .editor__input {
   margin: 0; padding: 0.6rem 0.7rem 0.6rem 3rem;
   font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.6;
@@ -686,8 +691,9 @@ table.data tbody tr:hover { background: var(--surface-2); }
 
 @media (max-width: 1180px) {
   .lesson { grid-template-columns: minmax(0, 1fr); }
-  .panel { position: static; max-height: none; }
-  .panel .editor__scroll { max-height: 60vh; }
+  .panel { position: static; scroll-margin-top: 0.75rem;
+    max-height: calc(100vh - 1.5rem - var(--drawer-h)); }
+  .panel .editor__scroll { max-height: calc((100vh - var(--drawer-h)) * 0.42); }
 }
 @media (max-width: 860px) {
   :root { --rail-w: 0px; }
