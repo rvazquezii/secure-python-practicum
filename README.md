@@ -17,6 +17,10 @@ Then open <http://localhost:8800>. A server is required — Python's WebAssembly
 runtime and ES modules are both blocked on `file://` URLs. The runtime downloads
 once (~10 MB) from a CDN and is cached by the browser afterwards.
 
+Responses are served `Cache-Control: no-store`, so an edited lesson takes effect
+on reload. Browsers cache ES modules hard; without it you keep getting the
+previous version of a file you just changed.
+
 ```bash
 ./serve.sh 9000      # a different port
 ```
