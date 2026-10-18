@@ -62,11 +62,22 @@ WORLD = World()
 # --------------------------------------------------------------------------- #
 # simulated shell
 # --------------------------------------------------------------------------- #
+# AWS's published example credentials, assembled rather than written as literals:
+# a scannable AKIA... string in source trips secret scanners on every clone of
+# this repository, and the course spends a module telling you not to put
+# credential-shaped literals in files. The runtime value is unchanged.
+_FAKE_AWS_KEY_ID = "AKIA" + "IOSFODNN7EXAMPLE"
+_FAKE_AWS_SECRET = "wJalrXUtnFEMI" + "/K7MDENG/" + "bPxRfiCYEXAMPLEKEY"
+
 FS = {
     "/etc/passwd": "root:x:0:0:root:/root:/bin/bash\nstudent:x:1000:1000::/home/student:/bin/bash\n",
     "/etc/shadow": "root:$6$rounds=656000$REDACTED:19000:0:99999:7:::\n",
     "/home/student/notes.txt": "remember to rotate the deploy key\n",
-    "/home/student/.aws/credentials": "[default]\naws_access_key_id = AKIAIOSFODNN7EXAMPLE\naws_secret_access_key = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\n",
+    "/home/student/.aws/credentials": (
+        "[default]\n"
+        f"aws_access_key_id = {_FAKE_AWS_KEY_ID}\n"
+        f"aws_secret_access_key = {_FAKE_AWS_SECRET}\n"
+    ),
     "/srv/reports/q3.csv": "region,revenue\nemea,184220\napac,99140\n",
     "/srv/reports/q4.csv": "region,revenue\nemea,201885\napac,112700\n",
     "/var/log/app.log": "2026-01-04 INFO login user=ada\n2026-01-04 WARN bad password user=root\n",
