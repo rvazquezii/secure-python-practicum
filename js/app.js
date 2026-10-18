@@ -15,6 +15,7 @@ let current = null; // {module, lesson, index}
 let lastResult = null;
 let activeTab = "output";
 let auditTimer = null;
+let scratchStdin = null;   // stdin of the snippet currently loaded as scratch
 
 /* ======================================================================== */
 /* boot                                                                      */
@@ -136,6 +137,13 @@ function wireChrome() {
     // lesson and returning restores whatever they had written.
     editor.value = code;
     clearResults();
+    // after clearResults, which resets it: an example brings its own stdin so it
+    // never silently consumes the exercise's fixture
+    try {
+      scratchStdin = JSON.parse(btn.dataset.stdin || "[]");
+    } catch {
+      scratchStdin = [];
+    }
     scheduleAudit();
     revealEditor();
     toast("Loaded as scratch — Run it; Submit still grades your exercise");
@@ -551,6 +559,7 @@ function renderLesson(id) {
    after the editor changes is the false assurance this whole course is about. */
 function clearResults() {
   lastResult = null;
+  scratchStdin = null;
   const total = (current?.lesson.exercise.tests || []).length;
 
   ["#ledRun", "#ledTests", "#ledAudit"].forEach((id) => led(id, ""));
@@ -611,7 +620,10 @@ function execute(grading) {
   if (!py.ready()) return toast("The interpreter is still loading");
   const ex = current.lesson.exercise;
   led("#ledRun", "busy");
-  if (grading) store.attempt(current.lesson.id);
+  if (grading) {
+    store.attempt(current.lesson.id);
+    scratchStdin = null;
+  }
   setTimeout(() => {
     try {
       // Run executes; only Submit grades. Checking a four-line example from the
@@ -619,7 +631,7 @@ function execute(grading) {
       // was never meant to satisfy it.
       lastResult = py.run({
         code: editor.value,
-        stdin: ex.stdin || [],
+        stdin: grading ? ex.stdin || [] : scratchStdin ?? ex.stdin ?? [],
         tests: grading ? ex.tests || [] : [],
         requirements: grading ? ex.requirements || [] : [],
         setup: ex.setup || "",
@@ -804,8 +816,10 @@ function helpHTML() {
       setPanel(helpHTML());
     });
   });
-  return `<p class="out__meta">stdin fed to input()</p>
-    ${ex.stdin?.length ? `<pre class="out">${esc(ex.stdin.join("\n"))}</pre>` : `<p class="empty">none</p>`}
+  const activeStdin = scratchStdin ?? ex.stdin ?? [];
+  const label = scratchStdin ? "stdin fed to input() — from the loaded example" : "stdin fed to input()";
+  return `<p class="out__meta">${label}</p>
+    ${activeStdin.length ? `<pre class="out">${esc(activeStdin.join("\n"))}</pre>` : `<p class="empty">none</p>`}
     <p class="out__meta" style="margin-top:.7rem">hints</p>${shown}${more}`;
 }
 
