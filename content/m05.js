@@ -19,13 +19,13 @@ export default {
     { id: "PY-CMD-BUILD", what: "command lines assembled as text reintroduce quoting bugs" },
   ],
   capstone:
-    "Day 25 hardens a report-generator CLI: path allowlist, argv execution, parameterised queries, and a breach ledger that must come back empty.",
+    "Day 31 hardens a report-generator CLI: path allowlist, argv execution, parameterised queries, and a breach ledger that must come back empty.",
 
   lessons: [
     /* ----------------------------------------------------------------- 21 */
     {
       id: "m05l01",
-      day: 21,
+      day: 27,
       title: "str and bytes: what actually crosses the wire",
       minutes: 60,
       secure: "decoding untrusted bytes",
@@ -294,7 +294,7 @@ Translating \`UnicodeDecodeError\` into \`ValueError\` keeps the module's vocabu
     /* ----------------------------------------------------------------- 22 */
     {
       id: "m05l02",
-      day: 22,
+      day: 28,
       title: "Unicode: when two different strings look identical",
       minutes: 60,
       secure: "identifier spoofing and normalisation",
@@ -616,7 +616,7 @@ Checking length before the character rules is also intentional: a 50 KB username
     /* ----------------------------------------------------------------- 23 */
     {
       id: "m05l03",
-      day: 23,
+      day: 29,
       title: "Command injection, and the shell you do not need",
       minutes: 60,
       secure: "argv execution, never a shell",
@@ -924,7 +924,7 @@ The breach ledger returning empty is the proof. Not "I reviewed it and it looks 
     /* ----------------------------------------------------------------- 24 */
     {
       id: "m05l04",
-      day: 24,
+      day: 30,
       title: "SQL injection, with a real database",
       minutes: 60,
       secure: "parameterised queries",
@@ -1243,7 +1243,7 @@ Two smaller decisions:
     /* ----------------------------------------------------------------- 25 */
     {
       id: "m05l05",
-      day: 25,
+      day: 31,
       title: "Capstone: harden the report tool",
       minutes: 60,
       secure: "layered injection defence",

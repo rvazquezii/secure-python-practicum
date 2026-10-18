@@ -18,13 +18,13 @@ export default {
     { id: "PY-TIMING-COMPARE", what: "compare secrets in constant time" },
   ],
   capstone:
-    "Day 10 builds a login gate: generic errors, per-account lockout, constant-time comparison, and an audit trail that names no secret.",
+    "Day 16 builds a login gate: generic errors, per-account lockout, constant-time comparison, and an audit trail that names no secret.",
 
   lessons: [
     /* ------------------------------------------------------------------ 6 */
     {
       id: "m02l01",
-      day: 6,
+      day: 12,
       title: "Branches, and the missing else that grants access",
       minutes: 60,
       secure: "fail-closed decisions",
@@ -291,7 +291,7 @@ Using \`.get()\` rather than \`[...]\` means a malformed document (missing \`vis
     /* ------------------------------------------------------------------ 7 */
     {
       id: "m02l02",
-      day: 7,
+      day: 13,
       title: "Loops that always terminate",
       minutes: 60,
       secure: "bounded work, no infinite loops",
@@ -601,7 +601,7 @@ Note what is *not* here: no \`time.sleep\` in a tight loop, no \`while True\`, a
     /* ------------------------------------------------------------------ 8 */
     {
       id: "m02l03",
-      day: 8,
+      day: 14,
       title: "Allowlists beat denylists, every time",
       minutes: 60,
       secure: "allowlist validation",
@@ -892,7 +892,7 @@ The function still does not open anything — resolving and opening are separate
     /* ------------------------------------------------------------------ 9 */
     {
       id: "m02l04",
-      day: 9,
+      day: 15,
       title: "Validators that return a clean value",
       minutes: 60,
       secure: "parse, don't validate",
@@ -1258,7 +1258,7 @@ The security-relevant choices:
     /* ----------------------------------------------------------------- 10 */
     {
       id: "m02l05",
-      day: 10,
+      day: 16,
       title: "Capstone: a login gate that gives nothing away",
       minutes: 60,
       secure: "enumeration resistance, lockout, constant-time compare",

@@ -18,13 +18,13 @@ export default {
     { id: "PY-IMPORT-PICKLE", what: "importing a deserializer is a dependency on trust" },
   ],
   capstone:
-    "Day 40 audits a requirements file: unpinned versions, missing hashes, a typosquatted name and a confusable internal package — reported with severities and a remediation.",
+    "Day 46 audits a requirements file: unpinned versions, missing hashes, a typosquatted name and a confusable internal package — reported with severities and a remediation.",
 
   lessons: [
     /* ----------------------------------------------------------------- 36 */
     {
       id: "m08l01",
-      day: 36,
+      day: 42,
       title: "Imports, sys.path, and the module that shadows the real one",
       minutes: 60,
       secure: "import resolution order",
@@ -390,7 +390,7 @@ Returning \`[]\` on a \`SyntaxError\` is a deliberate choice for a linting tool:
     /* ----------------------------------------------------------------- 37 */
     {
       id: "m08l02",
-      day: 37,
+      day: 43,
       title: "Virtual environments, pinning, and hashes",
       minutes: 60,
       secure: "reproducible installs",
@@ -700,7 +700,7 @@ What this tool deliberately does not do is resolve the dependency graph. It repo
     /* ----------------------------------------------------------------- 38 */
     {
       id: "m08l03",
-      day: 38,
+      day: 44,
       title: "Typosquatting and dependency confusion",
       minutes: 60,
       secure: "package name trust",
@@ -1016,7 +1016,7 @@ The internal-prefix rule is the dependency-confusion check, and it is the one wi
     /* ----------------------------------------------------------------- 39 */
     {
       id: "m08l04",
-      day: 39,
+      day: 45,
       title: "Configuration and secrets at runtime",
       minutes: 60,
       secure: "no credentials in source or image",
@@ -1409,7 +1409,7 @@ The signing key comes from a file and only from a file. The test that puts \`SIG
     /* ----------------------------------------------------------------- 40 */
     {
       id: "m08l05",
-      day: 40,
+      day: 46,
       title: "Capstone: audit a dependency manifest",
       minutes: 60,
       secure: "supply-chain review",

@@ -20,13 +20,13 @@ export default {
     { id: "PY-INSECURE-TEMP", what: "`mktemp` is a TOCTOU race" },
   ],
   capstone:
-    "Day 30 builds a safe archive extractor: every member name validated, every destination confined, totals bounded against zip bombs.",
+    "Day 36 builds a safe archive extractor: every member name validated, every destination confined, totals bounded against zip bombs.",
 
   lessons: [
     /* ----------------------------------------------------------------- 26 */
     {
       id: "m06l01",
-      day: 26,
+      day: 32,
       title: "open(), with, and the file you forgot to close",
       minutes: 60,
       secure: "explicit encoding, guaranteed cleanup",
@@ -310,7 +310,7 @@ The line cap is applied *during* iteration. Written as \`fh.readlines()[:max_lin
     /* ----------------------------------------------------------------- 27 */
     {
       id: "m06l02",
-      day: 27,
+      day: 33,
       title: "Path traversal, and the only check that works",
       minutes: 60,
       secure: "resolve then confine",
@@ -624,7 +624,7 @@ The two layers do different jobs. The regex makes traversal *unexpressible* for 
     /* ----------------------------------------------------------------- 28 */
     {
       id: "m06l03",
-      day: 28,
+      day: 34,
       title: "Writing files: atomicity, permissions, and temp-file races",
       minutes: 60,
       secure: "atomic writes, safe temp files",
@@ -925,7 +925,7 @@ Each step closes a specific hole:
     /* ----------------------------------------------------------------- 29 */
     {
       id: "m06l04",
-      day: 29,
+      day: 35,
       title: "pickle and yaml: when loading data runs code",
       minutes: 60,
       secure: "never deserialize untrusted data",
@@ -1267,7 +1267,7 @@ What this does **not** provide is confidentiality — the payload is readable by
     /* ----------------------------------------------------------------- 30 */
     {
       id: "m06l05",
-      day: 30,
+      day: 36,
       title: "Capstone: an archive extractor that cannot escape",
       minutes: 60,
       secure: "zip slip and zip bombs",
