@@ -35,7 +35,7 @@ export default {
           t: "p",
           md: `Python is an {{interpreter}}. You give it a line, it does the line, immediately. There is no "build" step and no waiting.
 
-Open the **Python console** at the bottom of this page — click it, or press \`⌃\`\` — and type \`2 + 3\` then Enter.`,
+Open the **Python console** at the bottom of this page — click it, or press **Control** and the **backtick** key (the one above Tab) — then type \`2 + 3\` and press Enter.`,
         },
         {
           t: "repl",
@@ -190,7 +190,7 @@ ready
 Requirements:
 
 - Line 2 must be produced by **one** \`print\` call with **two** values — \`"Learning:"\` and \`"Python"\` — letting \`print\` put the space between them.
-- Line 3 must use \`print\` with \`sep\`, called as \`print("Day", 1, "of", 66)\` — the default separator already gives you the spaces, so just call it that way.
+- Line 3 must be \`print("Day", 1, "of", 66)\` — four values in one call. Note that \`1\` and \`66\` carry no quotes: they are numbers, and \`print\` is happy to mix them with text.
 - Line 4 is \`ready\`, lower case.
 
 Type it rather than pasting. The muscle memory for quotes and parentheses is the point of this exercise.`,

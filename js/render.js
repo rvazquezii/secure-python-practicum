@@ -29,11 +29,25 @@ function mdTable(lines) {
   return `<div class="tablewrap"><table class="data"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
 }
 
-/** Block-level mini markdown: blank-line paragraphs, pipe tables, "- " and "1. " lists. */
+/* Fenced blocks are pulled out before the blank-line split, because a fence may
+   legitimately contain blank lines. They are escaped, never highlighted: roughly
+   half carry expected output rather than Python, and a `code` block is the one
+   that syntax-highlights. */
+const FENCE = /^```[^\n]*\n([\s\S]*?)^```[ \t]*$/gm;
+const preOf = (body) => `<pre class="mdpre"><code>${esc(body.replace(/\n$/, ""))}</code></pre>`;
+
+/** Block-level mini markdown: fenced code, blank-line paragraphs, pipe tables,
+    "- " and "1. " lists. */
 export function md(text = "") {
-  const chunks = String(text).trim().split(/\n\s*\n/);
+  const fences = [];
+  const src = String(text)
+    .trim()
+    .replace(FENCE, (_, body) => `\u0000F${fences.push(body) - 1}\u0000`);
+  const chunks = src.split(/\n\s*\n/);
   return chunks
     .map((chunk) => {
+      const only = chunk.trim().match(/^\u0000F(\d+)\u0000$/);
+      if (only) return preOf(fences[+only[1]]);
       const lines = chunk.split("\n").map((l) => l.trim()).filter(Boolean);
       if (
         lines.length >= 2 &&
@@ -51,7 +65,8 @@ export function md(text = "") {
       }
       return `<p>${inline(lines.join(" "))}</p>`;
     })
-    .join("");
+    .join("")
+    .replace(/\u0000F(\d+)\u0000/g, (_, i) => preOf(fences[+i]));
 }
 
 const BOX_META = {

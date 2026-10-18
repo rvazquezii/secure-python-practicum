@@ -355,6 +355,17 @@ body.drawer-open { --drawer-h: min(42vh, 24rem); }
 .prose pre code, .snippet pre code, .spot__code code {
   background: none; border: 0; padding: 0; white-space: pre;
 }
+
+/* fenced blocks written inside prose fields (briefs, boxes, rationales) */
+.mdpre {
+  margin: 0.75rem 0; padding: 0.7rem 0.8rem; overflow-x: auto; max-width: 68ch;
+  background: var(--surface); border: 1px solid var(--rule);
+  border-left: 3px solid var(--rule-2);
+  border-radius: var(--radius);
+  font-size: 0.8rem; line-height: 1.6; color: var(--ink);
+}
+.mdpre code { background: none; border: 0; padding: 0; white-space: pre; }
+.box .mdpre { background: var(--bg); margin: 0.5rem 0; max-width: none; }
 .prose dfn { font-style: normal; font-weight: 700; border-bottom: 2px solid var(--accent-wash); }
 
 /* info boxes — kind carried by border colour, label text AND glyph */

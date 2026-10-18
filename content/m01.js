@@ -35,7 +35,7 @@ export default {
       blocks: [
         {
           t: "p",
-          md: `Open the **Python console** at the bottom of this page (click it, or press \`⌃\`\`). That prompt — \`>>>\` — is a live Python process. Type an expression and it answers immediately.
+          md: `Open the **Python console** at the bottom of this page (click it, or press **Control** and the **backtick** key). That prompt — \`>>>\` — is a live Python process. Type an expression and it answers immediately.
 
 This is not a toy. Professional Python developers keep a console open all day: it is the fastest way to check what a function actually returns instead of guessing.`,
         },

@@ -78,6 +78,21 @@ for (const m of modules) {
       }
     }
 
+    // Prose uses a mini markdown with no escape for a literal backtick, so an
+    // odd count means an inline-code span is swallowing the text after it.
+    (function proseBackticks(v, path) {
+      if (typeof v === "string") {
+        if ((v.match(/`/g) || []).length % 2) bad(w, `unbalanced inline backticks in ${path}`);
+      } else if (Array.isArray(v)) {
+        v.forEach((x, i) => proseBackticks(x, `${path}[${i}]`));
+      } else if (v && typeof v === "object") {
+        for (const k of Object.keys(v)) {
+          if (["code", "solution", "starter", "setup"].includes(k)) continue;
+          proseBackticks(v[k], `${path}.${k}`);
+        }
+      }
+    })(l, l.id);
+
     (l.quiz || []).forEach((q, i) => {
       if (!q.q || !q.options || q.why === undefined) bad(w, `quiz ${i} incomplete`);
       if (!(q.answer >= 0 && q.answer < (q.options?.length ?? 0))) bad(w, `quiz ${i} answer out of range`);
