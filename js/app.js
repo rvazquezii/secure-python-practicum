@@ -82,7 +82,9 @@ function wireChrome() {
     $("#railToggle").setAttribute("aria-expanded", String(!closed));
   });
 
-  $("#drawerToggle").addEventListener("click", toggleDrawer);
+  // wrap it: passing the listener directly hands the click Event in as `force`,
+  // which is truthy, so the drawer would open and never close.
+  $("#drawerToggle").addEventListener("click", () => toggleDrawer());
   $("#replClear").addEventListener("click", () => {
     $("#replOut").innerHTML = "";
   });
@@ -132,7 +134,8 @@ function wireChrome() {
     editor.value = code;
     store.saveCode(current.lesson.id, code);
     scheduleAudit();
-    toast("Loaded into the editor");
+    revealEditor();
+    toast("Loaded into the Workbench editor");
     editor.focus();
   });
 }
@@ -159,6 +162,36 @@ function globalKeys(e) {
   }
   if (e.altKey && e.key === "ArrowRight" && current?.next) location.hash = `#/${current.next.id}`;
   if (e.altKey && e.key === "ArrowLeft" && current?.prev) location.hash = `#/${current.prev.id}`;
+}
+
+/* The workbench sits in the right column on a wide window and at the foot of the
+   page on a narrow one, where the open console also covers the bottom of the
+   screen. Loading code into it is useless if it stays off-screen -- and aligning
+   its BOTTOM to the free space needs less scroll room than aligning its top,
+   which matters because the page may not be tall enough for the latter. */
+function revealEditor() {
+  const panel = $(".panel");
+  const host = $("#editorHost");
+  if (!panel || !host) return;
+
+  const drawer = $("#drawer");
+  const floor = drawer?.classList.contains("drawer--open")
+    ? drawer.getBoundingClientRect().top
+    : window.innerHeight;
+
+  const box = host.getBoundingClientRect();
+  if (box.top >= 0 && box.bottom <= floor) return;   // already usable
+
+  const panelBox = panel.getBoundingClientRect();
+  const gap = 8;
+  const delta = panelBox.height <= floor - gap
+    ? panelBox.bottom - (floor - gap)                // whole panel fits: show the footer
+    : panelBox.top - gap;                            // taller than the space: show the top
+
+  // A smooth scroll across thousands of pixels is slow and disorienting; only
+  // animate short hops.
+  const behavior = Math.abs(delta) > window.innerHeight * 1.5 ? "auto" : "smooth";
+  window.scrollBy({ top: delta, behavior });
 }
 
 function toast(msg) {
@@ -497,6 +530,7 @@ function renderLesson(id) {
     editor.value = ex.starter;
     store.saveCode(id, ex.starter);
     scheduleAudit();
+    revealEditor();
     toast("Starter code restored");
   });
   $("#solutionBtn").addEventListener("click", showSolution);
@@ -758,6 +792,7 @@ function showSolution() {
     editor.value = ex.solution;
     store.saveCode(current.lesson.id, ex.solution);
     scheduleAudit();
+    revealEditor();
     toast("Solution loaded — run it, then rewrite it from memory");
   });
 }
@@ -826,6 +861,7 @@ function toggleDrawer(force) {
   const d = $("#drawer");
   const open = force === undefined ? !d.classList.contains("drawer--open") : force;
   d.classList.toggle("drawer--open", open);
+  document.body.classList.toggle("drawer-open", open);
   $("#drawerToggle").setAttribute("aria-expanded", String(open));
   if (open) $("#replInput").focus();
 }

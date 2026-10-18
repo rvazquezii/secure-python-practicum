@@ -46,7 +46,7 @@ const BOX_META = {
 function codeBlock(b) {
   const kind = b.label === "vulnerable" ? "vuln" : b.label === "fixed" ? "fix" : "neutral";
   const label = b.label ? esc(b.label) : "python";
-  const load = b.load === false ? "" : `<button class="linkbtn" data-load-code="1">send to editor</button>`;
+  const load = b.load === false ? "" : `<button class="linkbtn" data-load-code="1">send to Workbench →</button>`;
   return `<figure class="snippet snippet--${kind}">
     <div class="snippet__bar"><strong>${label}</strong>${load}</div>
     <pre><code>${highlight(b.code)}</code></pre>
