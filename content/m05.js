@@ -634,6 +634,7 @@ Any untrusted text concatenated into that string is code.`,
         {
           t: "code",
           label: "vulnerable",
+          stdin: ["q4.csv; cat /etc/shadow"],
           code: `import os
 
 name = input("report name: ")
@@ -665,6 +666,7 @@ The simulation is faithful to shell parsing rules and completely harmless — \`
         {
           t: "code",
           label: "fixed",
+          stdin: ["q4.csv; cat /etc/shadow"],
           code: `import subprocess
 
 name = input("report name: ")
@@ -934,6 +936,7 @@ The breach ledger returning empty is the proof. Not "I reviewed it and it looks 
         {
           t: "code",
           label: "vulnerable",
+          stdin: ["x' OR '1'='1"],
           code: `import sqlite3
 
 con = sqlite3.connect(":memory:")

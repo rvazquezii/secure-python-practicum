@@ -56,6 +56,21 @@ for (const m of modules) {
       if (!b.t) bad(w, "block without a type");
       if (b.t === "p" && !b.md) bad(w, "prose block without md");
       if (b.t === "code" && !b.code) bad(w, "code block without code");
+      if (b.t === "code" && b.code) {
+        // A snippet sent to the Workbench runs with its own stdin, so one that
+        // reads input() must supply it or the learner gets an EOFError.
+        const calls = (b.code.match(/\binput\s*\(/g) || []).length;
+        if (calls && b.load !== false) {
+          if (!Array.isArray(b.stdin)) {
+            bad(w, `code block calls input() ${calls}x but declares no stdin`);
+          } else if (b.stdin.length < calls) {
+            bad(w, `code block calls input() ${calls}x but declares only ${b.stdin.length} stdin line(s)`);
+          }
+        }
+        if (b.stdin !== undefined && !Array.isArray(b.stdin)) {
+          bad(w, "code block stdin must be an array of strings");
+        }
+      }
       if (b.t === "table" && (!b.head || !b.rows)) bad(w, "table block needs head and rows");
       if (b.t === "box" && !b.kind) bad(w, "box block without kind");
       if (b.t === "box" && !["note", "rule", "warn", "pitfall", "cve", "good", "try"].includes(b.kind)) {

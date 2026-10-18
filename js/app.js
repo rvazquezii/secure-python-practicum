@@ -15,6 +15,7 @@ let current = null; // {module, lesson, index}
 let lastResult = null;
 let activeTab = "output";
 let auditTimer = null;
+let scratchStdin = null;   // stdin of the snippet currently loaded as scratch
 
 /* ======================================================================== */
 /* boot                                                                      */
@@ -131,11 +132,21 @@ function wireChrome() {
     const btn = e.target.closest("[data-load-code]");
     if (!btn || !editor) return;
     const code = btn.closest(".snippet").querySelector("pre").textContent.replace(/\n$/, "");
+    // Deliberately not saved: an example is scratch material, and overwriting the
+    // learner's stored exercise answer with it would lose their work. Leaving the
+    // lesson and returning restores whatever they had written.
     editor.value = code;
-    store.saveCode(current.lesson.id, code);
+    clearResults();
+    // after clearResults, which resets it: an example brings its own stdin so it
+    // never silently consumes the exercise's fixture
+    try {
+      scratchStdin = JSON.parse(btn.dataset.stdin || "[]");
+    } catch {
+      scratchStdin = [];
+    }
     scheduleAudit();
     revealEditor();
-    toast("Loaded into the Workbench editor");
+    toast("Loaded as scratch — Run it; Submit still grades your exercise");
     editor.focus();
   });
 }
@@ -529,6 +540,7 @@ function renderLesson(id) {
   $("#resetBtn").addEventListener("click", () => {
     editor.value = ex.starter;
     store.saveCode(id, ex.starter);
+    clearResults();
     scheduleAudit();
     revealEditor();
     toast("Starter code restored");
@@ -539,11 +551,30 @@ function renderLesson(id) {
   wireQuiz(lesson);
   wireSpot(lesson);
   highlightRail(id, mod.id);
+  clearResults();
+  scheduleAudit();
+}
+
+/* Results belong to the code that produced them. Leaving a verdict on screen
+   after the editor changes is the false assurance this whole course is about. */
+function clearResults() {
+  lastResult = null;
+  scratchStdin = null;
+  const total = (current?.lesson.exercise.tests || []).length;
+
+  ["#ledRun", "#ledTests", "#ledAudit"].forEach((id) => led(id, ""));
+  $("#nTests").textContent = String(total);
+  $("#nTests").className = "tab__n";
+  $("#nAudit").textContent = "0";
+  $("#nAudit").className = "tab__n";
+  $("#nBreach").textContent = "0";
+  $("#nBreach").className = "tab__n";
+
+  selectTab("output");
   setPanel(
     `<p class="out__meta">no run yet</p><p class="empty">Write code, then press Run (⌘↵ / ⌃↵) to execute it.
      Submit (⌘⇧↵) grades correctness and security together.</p>`
   );
-  scheduleAudit();
 }
 
 /* ======================================================================== */
@@ -589,16 +620,23 @@ function execute(grading) {
   if (!py.ready()) return toast("The interpreter is still loading");
   const ex = current.lesson.exercise;
   led("#ledRun", "busy");
-  if (grading) store.attempt(current.lesson.id);
+  if (grading) {
+    store.attempt(current.lesson.id);
+    scratchStdin = null;
+  }
   setTimeout(() => {
     try {
+      // Run executes; only Submit grades. Checking a four-line example from the
+      // lesson against the exercise's test suite reports failure for code that
+      // was never meant to satisfy it.
       lastResult = py.run({
         code: editor.value,
-        stdin: ex.stdin || [],
-        tests: ex.tests || [],
-        requirements: ex.requirements || [],
+        stdin: grading ? ex.stdin || [] : scratchStdin ?? ex.stdin ?? [],
+        tests: grading ? ex.tests || [] : [],
+        requirements: grading ? ex.requirements || [] : [],
         setup: ex.setup || "",
       });
+      lastResult.graded = grading;
     } catch (e) {
       led("#ledRun", "bad");
       selectTab("output");
@@ -616,12 +654,13 @@ function afterRun(grading) {
   const r = lastResult;
   led("#ledRun", r.error ? "bad" : "on");
   const failed = r.tests.filter((t) => !t.passed).length;
-  led("#ledTests", r.tests.length ? (failed ? "bad" : "on") : "");
+  led("#ledTests", grading && r.tests.length ? (failed ? "bad" : "on") : "");
   const worst = r.findings[0]?.severity;
   led("#ledAudit", r.findings.length ? (SEV_RANK[worst] <= 1 ? "bad" : "warn") : "on");
 
-  $("#nTests").textContent = `${r.tests.filter((t) => t.passed).length}/${r.tests.length}`;
-  $("#nTests").className = `tab__n${r.tests.length ? (failed ? " tab__n--bad" : " tab__n--good") : ""}`;
+  const total = (current.lesson.exercise.tests || []).length;
+  $("#nTests").textContent = grading ? `${r.tests.filter((t) => t.passed).length}/${r.tests.length}` : `${total}`;
+  $("#nTests").className = `tab__n${grading && r.tests.length ? (failed ? " tab__n--bad" : " tab__n--good") : ""}`;
   $("#nAudit").textContent = r.findings.length;
   $("#nAudit").className = `tab__n${r.findings.length ? (SEV_RANK[worst] <= 1 ? " tab__n--bad" : " tab__n--warn") : " tab__n--good"}`;
   $("#nBreach").textContent = (r.breaches || []).length;
@@ -654,7 +693,7 @@ function paintPanel() {
 }
 
 function verdictHTML(r) {
-  if (r.passed === undefined) return "";
+  if (!r.graded || r.passed === undefined) return "";
   if (r.passed) {
     return `<div class="verdict verdict--pass">
       <span class="verdict__t">✓ Accepted — correct and clean</span>
@@ -689,6 +728,12 @@ function outputHTML(r) {
 }
 
 function testsHTML(r) {
+  if (!r.graded) {
+    const n = (current.lesson.exercise.tests || []).length;
+    return `<p class="empty">Run executes your code. ${n} test${n === 1 ? "" : "s"} for this
+      exercise run when you press <strong>Submit</strong> (⌘⇧↵), which grades correctness
+      and security together.</p>`;
+  }
   if (!r.tests.length) return `${verdictHTML(r)}<p class="empty">This exercise has no automated tests — read the brief and check the output.</p>`;
   return (
     verdictHTML(r) +
@@ -771,8 +816,10 @@ function helpHTML() {
       setPanel(helpHTML());
     });
   });
-  return `<p class="out__meta">stdin fed to input()</p>
-    ${ex.stdin?.length ? `<pre class="out">${esc(ex.stdin.join("\n"))}</pre>` : `<p class="empty">none</p>`}
+  const activeStdin = scratchStdin ?? ex.stdin ?? [];
+  const label = scratchStdin ? "stdin fed to input() — from the loaded example" : "stdin fed to input()";
+  return `<p class="out__meta">${label}</p>
+    ${activeStdin.length ? `<pre class="out">${esc(activeStdin.join("\n"))}</pre>` : `<p class="empty">none</p>`}
     <p class="out__meta" style="margin-top:.7rem">hints</p>${shown}${more}`;
 }
 

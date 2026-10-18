@@ -97,6 +97,7 @@ The defect class is always the same sentence: *data from outside was used as if 
         {
           t: "code",
           label: "vulnerable",
+          stdin: ["__import__('os').system('cat /etc/shadow')"],
           code: `answer = input("Enter a calculation: ")
 print(eval(answer))          # user types: __import__('os').system('cat /etc/shadow')`,
           cap: "`eval` compiles and executes whatever it receives, with your program's full privileges.",
@@ -104,6 +105,7 @@ print(eval(answer))          # user types: __import__('os').system('cat /etc/sha
         {
           t: "code",
           label: "fixed",
+          stdin: ["21"],
           code: `answer = input("Enter a whole number: ")
 value = int(answer)          # raises ValueError on anything that is not a number
 print(value * 2)`,
@@ -254,12 +256,14 @@ print("Source: untrusted")`,
         {
           t: "code",
           label: "vulnerable",
+          stdin: ["__import__('os').system('id')"],
           code: `raw = input("Port: ")
 port = eval(raw)      # "9" -> 9, but "__import__('os').system('id')" -> compromise`,
         },
         {
           t: "code",
           label: "fixed",
+          stdin: ["9; rm -rf /"],
           code: `raw = input("Port: ")
 port = int(raw)       # "9" -> 9, "9; rm -rf /" -> ValueError`,
           cap: "`int()` is a parser. It accepts exactly one shape of input and rejects everything else.",
@@ -306,6 +310,7 @@ When the exact text matters, validate the string *and* the parsed value: \`if no
         {
           t: "code",
           label: "fixed",
+          stdin: ["70000"],
           code: `raw = input("Port: ")
 if not raw.isascii() or not raw.isdigit():
     raise ValueError("port must be digits only")
