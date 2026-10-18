@@ -18,13 +18,13 @@ export default {
     { id: "PY-SWALLOWED-ERROR", what: "a silent failure in a worker loses work" },
   ],
   capstone:
-    "Day 55 builds a job worker with a bounded queue, a per-job timeout, a concurrency limit, and a circuit breaker — then proves each bound holds.",
+    "Day 61 builds a job worker with a bounded queue, a per-job timeout, a concurrency limit, and a circuit breaker — then proves each bound holds.",
 
   lessons: [
     /* ----------------------------------------------------------------- 51 */
     {
       id: "m11l01",
-      day: 51,
+      day: 57,
       title: "Threads, the GIL, and shared mutable state",
       minutes: 60,
       secure: "race conditions",
@@ -438,7 +438,7 @@ The conservation test is the one that matters most in review. Counting successes
     /* ----------------------------------------------------------------- 52 */
     {
       id: "m11l02",
-      day: 52,
+      day: 58,
       title: "asyncio: concurrency with explicit bounds",
       minutes: 60,
       secure: "timeouts and backpressure",
@@ -817,7 +817,7 @@ The same three controls appear in the \`asyncio\` version at the top of this les
     /* ----------------------------------------------------------------- 53 */
     {
       id: "m11l03",
-      day: 53,
+      day: 59,
       title: "ReDoS: when a regex becomes the outage",
       minutes: 60,
       secure: "catastrophic backtracking",
@@ -1157,7 +1157,7 @@ The length check comes before everything else, which is the single most valuable
     /* ----------------------------------------------------------------- 54 */
     {
       id: "m11l04",
-      day: 54,
+      day: 60,
       title: "Rate limiting and backpressure",
       minutes: 60,
       secure: "bounded intake",
@@ -1624,7 +1624,7 @@ The half-open path is the subtle one: it lets precisely one call through, and th
     /* ----------------------------------------------------------------- 55 */
     {
       id: "m11l05",
-      day: 55,
+      day: 61,
       title: "Capstone: a worker that bounds everything",
       minutes: 60,
       secure: "resource budgets end to end",
@@ -1694,7 +1694,7 @@ The half-open path is the subtle one: it lets precisely one call through, and th
       ],
       exercise: {
         title: "process_batch(): every resource bounded",
-        brief: `Build \`Worker\` using the pieces you wrote on day 54 (re-declared in the starter).
+        brief: `Build \`Worker\` using the pieces you wrote on day 60 (re-declared in the starter).
 
 \`Worker(handler, *, max_queue=100, max_payload=1000, max_batch=50, rate_capacity=10, rate_per_second=5, breaker_threshold=3, breaker_cooldown=30)\`
 

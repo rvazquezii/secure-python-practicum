@@ -18,13 +18,13 @@ export default {
     { id: "PY-HARDCODED-SECRET", what: "credentials never live in source" },
   ],
   capstone:
-    "Day 5 closes the module with a settings loader that reports its own configuration safely: types checked, secrets redacted, no credential in the source file.",
+    "Day 11 closes the module with a settings loader that reports its own configuration safely: types checked, secrets redacted, no credential in the source file.",
 
   lessons: [
     /* ------------------------------------------------------------------ 1 */
     {
       id: "m01l01",
-      day: 1,
+      day: 7,
       title: "The console, values, and your first trust boundary",
       minutes: 60,
       secure: "trust boundaries",
@@ -210,7 +210,7 @@ print("Source: untrusted")`,
     /* ------------------------------------------------------------------ 2 */
     {
       id: "m01l02",
-      day: 2,
+      day: 8,
       title: "Variables, types, and the string that pretends to be a number",
       minutes: 60,
       secure: "type confusion at the edge",
@@ -438,7 +438,7 @@ The function either returns a usable \`int\` or raises. There is no third outcom
     /* ------------------------------------------------------------------ 3 */
     {
       id: "m01l03",
-      day: 3,
+      day: 9,
       title: "f-strings, and how secrets end up in log files",
       minutes: 60,
       secure: "sensitive data in logs",
@@ -681,7 +681,7 @@ The length is included because it is operationally useful (it distinguishes a tr
     /* ------------------------------------------------------------------ 4 */
     {
       id: "m01l04",
-      day: 4,
+      day: 10,
       title: "Numbers: floats lie about money, ints never overflow",
       minutes: 60,
       secure: "rounding and limit checks",
@@ -939,7 +939,7 @@ Three separate rules, three separate errors: a type problem is a \`TypeError\`, 
     /* ------------------------------------------------------------------ 5 */
     {
       id: "m01l05",
-      day: 5,
+      day: 11,
       title: "Capstone: a settings loader that fails closed",
       minutes: 60,
       secure: "fail-closed configuration, no secrets in source",

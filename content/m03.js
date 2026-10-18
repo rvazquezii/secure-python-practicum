@@ -18,13 +18,13 @@ export default {
     { id: "PY-MUTABLE-DEFAULT", what: "shared mutable state leaks between calls" },
   ],
   capstone:
-    "Day 15 builds an event-redaction pipeline: an allowlist of fields, deep redaction of nested structures, and a generator that never holds the whole dataset in memory.",
+    "Day 21 builds an event-redaction pipeline: an allowlist of fields, deep redaction of nested structures, and a generator that never holds the whole dataset in memory.",
 
   lessons: [
     /* ----------------------------------------------------------------- 11 */
     {
       id: "m03l01",
-      day: 11,
+      day: 17,
       title: "Lists, tuples, slicing, and bounded reads",
       minutes: 60,
       secure: "bounded collections",
@@ -321,7 +321,7 @@ Clamping \`page\` rather than rejecting it is a deliberate difference in kind: a
     /* ----------------------------------------------------------------- 12 */
     {
       id: "m03l02",
-      day: 12,
+      day: 18,
       title: "Dicts, and the dispatch table that replaces eval",
       minutes: 60,
       secure: "explicit dispatch, no dynamic attribute access",
@@ -695,7 +695,7 @@ Three supporting details:
     /* ----------------------------------------------------------------- 13 */
     {
       id: "m03l03",
-      day: 13,
+      day: 19,
       title: "Sets: allowlists that stay fast",
       minutes: 60,
       secure: "O(1) membership, hash collisions",
@@ -998,7 +998,7 @@ Two choices worth defending:
     /* ----------------------------------------------------------------- 14 */
     {
       id: "m03l04",
-      day: 14,
+      day: 20,
       title: "Comprehensions and generators: never load the whole thing",
       minutes: 60,
       secure: "streaming instead of buffering",
@@ -1309,7 +1309,7 @@ Skipping bad lines with \`continue\` rather than raising is the right call for l
     /* ----------------------------------------------------------------- 15 */
     {
       id: "m03l05",
-      day: 15,
+      day: 21,
       title: "Capstone: redaction by construction",
       minutes: 60,
       secure: "data minimisation",

@@ -19,13 +19,13 @@ export default {
     { id: "PY-TIMING-COMPARE", what: "secret comparison must be constant-time" },
   ],
   capstone:
-    "Day 45 builds a signed, expiring, single-purpose token: versioned, bound to an audience, and rejected the moment anything about it is off.",
+    "Day 51 builds a signed, expiring, single-purpose token: versioned, bound to an audience, and rejected the moment anything about it is off.",
 
   lessons: [
     /* ----------------------------------------------------------------- 41 */
     {
       id: "m09l01",
-      day: 41,
+      day: 47,
       title: "secrets, not random",
       minutes: 60,
       secure: "unpredictable values",
@@ -363,7 +363,7 @@ The unambiguous alphabet in \`recovery_code\` is a usability decision with a sec
     /* ----------------------------------------------------------------- 42 */
     {
       id: "m09l02",
-      day: 42,
+      day: 48,
       title: "Hashing for integrity, and the algorithms that are finished",
       minutes: 60,
       secure: "collision resistance",
@@ -713,7 +713,7 @@ Streaming in 64 KiB chunks keeps memory flat whether the artifact is 2 KB or 2 G
     /* ----------------------------------------------------------------- 43 */
     {
       id: "m09l03",
-      day: 43,
+      day: 49,
       title: "Password storage: slow, salted, and upgradable",
       minutes: 60,
       secure: "key derivation functions",
@@ -1094,7 +1094,7 @@ One honest limitation: PBKDF2 is not memory-hard, so a GPU attacker gets more le
     /* ----------------------------------------------------------------- 44 */
     {
       id: "m09l04",
-      day: 44,
+      day: 50,
       title: "HMAC: proving who produced a message",
       minutes: 60,
       secure: "authentication of data",
@@ -1441,7 +1441,7 @@ The check order is from cheapest and most structural to most expensive: a malfor
     /* ----------------------------------------------------------------- 45 */
     {
       id: "m09l05",
-      day: 45,
+      day: 51,
       title: "Capstone: a signed, expiring, single-purpose token",
       minutes: 60,
       secure: "token design",

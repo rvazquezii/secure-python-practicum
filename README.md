@@ -1,4 +1,4 @@
-# Secure Python — a 60-day practicum
+# Secure Python — a 66-day practicum
 
 A self-contained, browser-based course that teaches Python from zero with secure
 coding enforced from day one. Real CPython runs in the page (Pyodide/WebAssembly),
@@ -29,29 +29,35 @@ previous version of a file you just changed.
 
 | | |
 |---|---|
-| Modules | 12 |
-| Lessons | 60, one per hour-long session |
+| Modules | 13, the first a syntax primer for absolute beginners |
+| Lessons | 66, one per hour-long session |
 | Auditor rules | 34, AST-based, each with a CWE reference and a fix |
-| Exercises | 60, every reference solution machine-verified |
-| Quiz questions | 180, plus 29 spot-the-vulnerability drills |
-| Automated tests | 462 across the exercises, plus 130 for the engine itself |
+| Exercises | 66, every reference solution machine-verified |
+| Quiz questions | 198, plus 31 spot-the-vulnerability drills |
+| Automated tests | 487 across the exercises, plus 130 for the engine itself |
 
 ### Curriculum
 
 | Module | Days | Subject | Security focus |
 |---|---|---|---|
-| 1 | 1–5 | Foundations and the secure mindset | trust boundaries |
-| 2 | 6–10 | Control flow and input validation | fail closed |
-| 3 | 11–15 | Data structures and data you do not own | lookup tables, minimisation |
-| 4 | 16–20 | Functions, scope and failure | error hygiene |
-| 5 | 21–25 | Strings, bytes and injection | command and SQL injection |
-| 6 | 26–30 | Files, paths and deserialization | path confinement, RCE formats |
-| 7 | 31–35 | Objects and secure design | invariants, redaction |
-| 8 | 36–40 | Modules, environments and the supply chain | dependencies, secrets |
-| 9 | 41–45 | Cryptography you will actually use | tokens, hashing, HMAC |
-| 10 | 46–50 | Web and API security | TLS, SSRF, XSS, IDOR |
-| 11 | 51–55 | Concurrency, resources and denial of service | availability |
-| 12 | 56–60 | Expert practice: types, tests and tooling | proving it |
+| 0 | 1–6 | Before day one: the Python you need | syntax, reading errors |
+| 1 | 7–11 | Foundations and the secure mindset | trust boundaries |
+| 2 | 12–16 | Control flow and input validation | fail closed |
+| 3 | 17–21 | Data structures and data you do not own | lookup tables, minimisation |
+| 4 | 22–26 | Functions, scope and failure | error hygiene |
+| 5 | 27–31 | Strings, bytes and injection | command and SQL injection |
+| 6 | 32–36 | Files, paths and deserialization | path confinement, RCE formats |
+| 7 | 37–41 | Objects and secure design | invariants, redaction |
+| 8 | 42–46 | Modules, environments and the supply chain | dependencies, secrets |
+| 9 | 47–51 | Cryptography you will actually use | tokens, hashing, HMAC |
+| 10 | 52–56 | Web and API security | TLS, SSRF, XSS, IDOR |
+| 11 | 57–61 | Concurrency, resources and denial of service | availability |
+| 12 | 62–66 | Expert practice: types, tests and tooling | proving it |
+
+Module 0 assumes nothing. It covers running code, reading a traceback, names and
+types, text, arithmetic, indentation and functions — the things Module 1 uses on
+its first page. Skip it if `def greet(name): return f"hi {name}"` already reads
+plainly to you.
 
 ## How grading works
 
@@ -108,7 +114,7 @@ js/store.js             progress, practice clock, streak
 py/sandbox.py           executor, test harness and AST security auditor
 py/teachlib.py          the simulated hostile world
 py/test_sandbox.py      130 tests for the engine
-content/m01..m12.js     the lessons
+content/m00..m12.js     the lessons
 tools/verify.mjs        content structure checks
 tools/verify_lessons.py runs every reference solution through the real grader
 ```
@@ -127,7 +133,7 @@ node tools/verify.mjs && python3 tools/verify_lessons.py
 ```
 
 Checks every lesson's structure (ids, day numbering, quiz answers, spot-the-bug
-line ranges), then runs all 60 reference solutions through the same grader the
+line ranges), then runs all 66 reference solutions through the same grader the
 browser uses. A solution must be accepted — tests pass, no blocking finding,
 requirements met — and no starter may contain a syntax error.
 
@@ -162,13 +168,26 @@ world.
 Requirement kinds: `defines`, `calls`, `uses_module`, `forbids_module`,
 `forbids` (regex), `regex`, `no_finding`.
 
-Two authoring traps, both caught by `node tools/verify.mjs`:
+Authoring traps, caught by `node tools/verify.mjs` unless noted:
 
 - lesson content lives in JS template literals, so Python backticks must be
   escaped (`` \` ``) and a Python f-string containing `${` collides with JS
   interpolation,
 - exercises that touch the filesystem must use **relative** paths; the browser's
-  in-memory filesystem allows `/work`, a real machine does not.
+  in-memory filesystem allows `/work`, a real machine does not,
+- a code block whose snippet calls `input()` must declare a `stdin` array long
+  enough to feed every call, or the learner gets an `EOFError` on **Run**,
+- JavaScript does not concatenate adjacent string literals the way Python does;
+  a multi-line `hints` or `lede` entry needs an explicit `+` on every line but
+  the last. This surfaces as a `SyntaxError: Unexpected string` at import, not
+  as a verifier finding.
+- `_stdout` and `_lines` are a snapshot taken when the submission finished, so a
+  test that calls the learner's function again sees none of its output. Capture
+  it with `io.StringIO` and `contextlib.redirect_stdout` inside the test.
+
+Prose fields (`lede`, `brief`, `why`, box `md`) support paragraphs, `- ` and
+`1. ` lists, and GitHub-style pipe tables. A table needs its header row, a
+`|---|---|` rule and all rows starting with `|`, set off by blank lines.
 
 ## Limitations
 

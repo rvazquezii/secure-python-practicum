@@ -19,13 +19,13 @@ export default {
     { id: "PY-XSS-MARKUP", what: "unescaped user data in HTML executes" },
   ],
   capstone:
-    "Day 50 takes a deliberately vulnerable document API — IDOR, XSS, SSRF, mass assignment, enumeration — and closes every hole with tests that prove it.",
+    "Day 56 takes a deliberately vulnerable document API — IDOR, XSS, SSRF, mass assignment, enumeration — and closes every hole with tests that prove it.",
 
   lessons: [
     /* ----------------------------------------------------------------- 46 */
     {
       id: "m10l01",
-      day: 46,
+      day: 52,
       title: "Outbound HTTP: verify, time out, give up",
       minutes: 60,
       secure: "TLS verification and timeouts",
@@ -347,7 +347,7 @@ The size cap discussed in the lesson is absent here only because the simulated r
     /* ----------------------------------------------------------------- 47 */
     {
       id: "m10l02",
-      day: 47,
+      day: 53,
       title: "SSRF: when the attacker chooses your destination",
       minutes: 60,
       secure: "URL and host allowlisting",
@@ -743,7 +743,7 @@ What remains uncovered, and should be stated in any real design document: DNS re
     /* ----------------------------------------------------------------- 48 */
     {
       id: "m10l03",
-      day: 48,
+      day: 54,
       title: "Output encoding, and the escaping that does not apply",
       minutes: 60,
       secure: "context-correct escaping",
@@ -1093,7 +1093,7 @@ The general lesson is in the table rather than the code: autoescaping in a templ
     /* ----------------------------------------------------------------- 49 */
     {
       id: "m10l04",
-      day: 49,
+      day: 55,
       title: "Authorisation per object, not per route",
       minutes: 60,
       secure: "object-level access control",
@@ -1492,7 +1492,7 @@ Three decisions inside it are the security content:
     /* ----------------------------------------------------------------- 50 */
     {
       id: "m10l05",
-      day: 50,
+      day: 56,
       title: "Capstone: fix a vulnerable API",
       minutes: 60,
       secure: "end-to-end hardening",

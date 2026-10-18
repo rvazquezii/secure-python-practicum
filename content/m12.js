@@ -18,13 +18,13 @@ export default {
     { id: "PY-SWALLOWED-ERROR", what: "the rule a test catches only if you write it" },
   ],
   capstone:
-    "Day 60 audits a complete vulnerable application and produces a prioritised report with a remediation and a regression test for every finding.",
+    "Day 66 audits a complete vulnerable application and produces a prioritised report with a remediation and a regression test for every finding.",
 
   lessons: [
     /* ----------------------------------------------------------------- 56 */
     {
       id: "m12l01",
-      day: 56,
+      day: 62,
       title: "Types that make invalid states unrepresentable",
       minutes: 60,
       secure: "invariants in the type system",
@@ -371,7 +371,7 @@ The \`bool\` handling is the detail that makes it correct. \`isinstance(True, in
     /* ----------------------------------------------------------------- 57 */
     {
       id: "m12l02",
-      day: 57,
+      day: 63,
       title: "Tests that encode attacks",
       minutes: 60,
       secure: "security regression tests",
@@ -735,7 +735,7 @@ The payload list includes \`"correct-horse"\` — a valid password used as a use
     /* ----------------------------------------------------------------- 58 */
     {
       id: "m12l03",
-      day: 58,
+      day: 64,
       title: "Property-based testing and fuzzing",
       minutes: 60,
       secure: "inputs you did not think of",
@@ -1106,7 +1106,7 @@ Truncating reported inputs to 40 characters keeps the report readable when the o
     /* ----------------------------------------------------------------- 59 */
     {
       id: "m12l04",
-      day: 59,
+      day: 65,
       title: "Write your own security linter",
       minutes: 60,
       secure: "enforcing your own rules",
@@ -1530,7 +1530,7 @@ The honest limitation belongs in the tool's documentation: this sees patterns, n
     /* ----------------------------------------------------------------- 60 */
     {
       id: "m12l05",
-      day: 60,
+      day: 66,
       title: "Capstone: audit an application",
       minutes: 60,
       secure: "the whole discipline",

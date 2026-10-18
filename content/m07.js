@@ -18,13 +18,13 @@ export default {
     { id: "PY-MUTABLE-DEFAULT", what: "class-level mutable attributes are shared by every instance" },
   ],
   capstone:
-    "Day 35 builds a `Credential` type that validates on construction, refuses to be printed, compares in constant time, and cannot be serialised by accident.",
+    "Day 41 builds a `Credential` type that validates on construction, refuses to be printed, compares in constant time, and cannot be serialised by accident.",
 
   lessons: [
     /* ----------------------------------------------------------------- 31 */
     {
       id: "m07l01",
-      day: 31,
+      day: 37,
       title: "Classes, and invariants established at construction",
       minutes: 60,
       secure: "valid by construction",
@@ -377,7 +377,7 @@ The read-only property is doing real work. With a plain \`self.balance\` attribu
     /* ----------------------------------------------------------------- 32 */
     {
       id: "m07l02",
-      day: 32,
+      day: 38,
       title: "Properties, encapsulation, and attributes that refuse to be set",
       minutes: 60,
       secure: "controlled mutation",
@@ -737,7 +737,7 @@ print(s.user_id, s.role, s.is_admin, s.token[:4])`,
     /* ----------------------------------------------------------------- 33 */
     {
       id: "m07l03",
-      day: 33,
+      day: 39,
       title: "dataclasses, immutability, and the repr that leaks",
       minutes: 60,
       secure: "redacted representations",
@@ -1082,7 +1082,7 @@ Validation lives in \`__post_init__\` because the decorator owns \`__init__\`. I
     /* ----------------------------------------------------------------- 34 */
     {
       id: "m07l04",
-      day: 34,
+      day: 40,
       title: "Inheritance, composition, and subclasses that break the rules",
       minutes: 60,
       secure: "substitutability of security controls",
@@ -1472,7 +1472,7 @@ The \`ABC\` turns "forgot to implement \`validate\`" into a \`TypeError\` at con
     /* ----------------------------------------------------------------- 35 */
     {
       id: "m07l05",
-      day: 35,
+      day: 41,
       title: "Capstone: a Credential type that refuses to leak",
       minutes: 60,
       secure: "constant-time __eq__, no accidental serialisation",

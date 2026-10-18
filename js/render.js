@@ -16,12 +16,33 @@ export function inline(text = "") {
     .replace(/\{\{([^}]+)\}\}/g, '<dfn>$1</dfn>');
 }
 
-/** Block-level mini markdown: blank-line paragraphs, "- " and "1. " lists. */
+const cells = (line) =>
+  line.replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
+
+/** A pipe table: header row, a |---|---| rule, then body rows. */
+function mdTable(lines) {
+  const head = cells(lines[0]).map((h) => `<th>${inline(h)}</th>`).join("");
+  const body = lines
+    .slice(2)
+    .map((r) => `<tr>${cells(r).map((c) => `<td>${inline(c)}</td>`).join("")}</tr>`)
+    .join("");
+  return `<div class="tablewrap"><table class="data"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+
+/** Block-level mini markdown: blank-line paragraphs, pipe tables, "- " and "1. " lists. */
 export function md(text = "") {
   const chunks = String(text).trim().split(/\n\s*\n/);
   return chunks
     .map((chunk) => {
       const lines = chunk.split("\n").map((l) => l.trim()).filter(Boolean);
+      if (
+        lines.length >= 2 &&
+        lines[0].startsWith("|") &&
+        /^\|[\s:|-]+\|$/.test(lines[1]) &&
+        lines.every((l) => l.startsWith("|"))
+      ) {
+        return mdTable(lines);
+      }
       if (lines.every((l) => l.startsWith("- "))) {
         return `<ul>${lines.map((l) => `<li>${inline(l.slice(2))}</li>`).join("")}</ul>`;
       }

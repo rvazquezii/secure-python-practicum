@@ -18,13 +18,13 @@ export default {
     { id: "PY-TRACEBACK-LEAK", what: "tracebacks disclose paths, versions and queries" },
   ],
   capstone:
-    "Day 20 builds a conversion library with a two-channel error design: a rich internal diagnostic and a deliberately boring message for the caller.",
+    "Day 26 builds a conversion library with a two-channel error design: a rich internal diagnostic and a deliberately boring message for the caller.",
 
   lessons: [
     /* ----------------------------------------------------------------- 16 */
     {
       id: "m04l01",
-      day: 16,
+      day: 22,
       title: "Functions, contracts, and the single return shape",
       minutes: 60,
       secure: "unambiguous contracts",
@@ -351,7 +351,7 @@ The design decisions that are specifically security decisions:
     /* ----------------------------------------------------------------- 17 */
     {
       id: "m04l02",
-      day: 17,
+      day: 23,
       title: "*args, **kwargs, and the parameters you did not mean to accept",
       minutes: 60,
       secure: "narrow signatures, mass assignment",
@@ -705,7 +705,7 @@ Three details:
     /* ----------------------------------------------------------------- 18 */
     {
       id: "m04l03",
-      day: 18,
+      day: 24,
       title: "Exceptions: catch what you can handle, nothing else",
       minutes: 60,
       secure: "no swallowed failures",
@@ -1034,7 +1034,7 @@ The ordering is also a control:
     /* ----------------------------------------------------------------- 19 */
     {
       id: "m04l04",
-      day: 19,
+      day: 25,
       title: "Error messages that help you and not the attacker",
       minutes: 60,
       secure: "information disclosure in errors",
@@ -1394,7 +1394,7 @@ Three structural points:
     /* ----------------------------------------------------------------- 20 */
     {
       id: "m04l05",
-      day: 20,
+      day: 26,
       title: "Capstone: a conversion library nobody can misuse",
       minutes: 60,
       secure: "defensive API design",

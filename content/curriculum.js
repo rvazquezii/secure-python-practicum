@@ -1,6 +1,7 @@
-/* Course assembly. Each module file owns its five lessons; this file derives the
+/* Course assembly. Each module file owns its lessons; this file derives the
    flat lesson index (day order) that routing, search and the rail depend on. */
 
+import m00 from "./m00.js";
 import m01 from "./m01.js";
 import m02 from "./m02.js";
 import m03 from "./m03.js";
@@ -14,7 +15,7 @@ import m10 from "./m10.js";
 import m11 from "./m11.js";
 import m12 from "./m12.js";
 
-export const MODULES = [m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11, m12];
+export const MODULES = [m00, m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11, m12];
 
 export const LESSON_INDEX = MODULES.flatMap((m) =>
   m.lessons.map((l) => ({
@@ -33,7 +34,8 @@ export const COURSE = {
   hours: LESSON_INDEX.length,
   rules: 34,
   lede:
-    "Sixty one-hour sessions. Real CPython runs in this page, so you type code and it executes. " +
+    "Sixty-six one-hour sessions, opening with a six-day syntax primer for absolute beginners. " +
+    "Real CPython runs in this page, so you type code and it executes. " +
     "Every submission is graded twice: once for correctness, once by a security auditor that " +
     "reads your syntax tree. Insecure code that produces the right answer does not pass.",
   contract: `A lesson is complete when **all three** hold:
